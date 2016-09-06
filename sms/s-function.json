@@ -1,0 +1,59 @@
+{
+  "name": "sms",
+  "runtime": "nodejs4.3",
+  "description": "Sends code SMS text via SNS to a phone number",
+  "customName": false,
+  "customRole": false,
+  "handler": "handler.handler",
+  "timeout": 6,
+  "memorySize": 1024,
+  "authorizer": {},
+  "custom": {
+    "excludePatterns": []
+  },
+  "endpoints": [
+    {
+      "path": "sms",
+      "method": "POST",
+      "type": "AWS",
+      "authorizationType": "none",
+      "authorizerFunction": false,
+      "apiKeyRequired": false,
+      "requestParameters": {},
+      "requestTemplates": {
+        "application/json": "{\"payload\" : $input.json(\"$\")}"
+      },
+      "responses": {
+        "400": {
+          "statusCode": "400"
+        },
+        "default": {
+          "statusCode": "201",
+          "responseParameters": {},
+          "responseModels": {},
+          "responseTemplates": {
+            "application/json;charset=UTF-8": ""
+          }
+        }
+      }
+    }
+  ],
+  "events": [],
+  "environment": {
+    "SERVERLESS_PROJECT": "${project}",
+    "SERVERLESS_STAGE": "${stage}",
+    "SERVERLESS_REGION": "${region}",
+    "SERVERLESS_KEY": "${key}"
+  },
+  "vpc": {
+    "securityGroupIds": [],
+    "subnetIds": []
+  },
+  "iamRoleStatements": [
+    {
+      "Effect": "Allow",
+      "Action": "sns:Publish",
+      "Resource": "*"
+    }
+  ]
+}
